@@ -1,13 +1,13 @@
 #!/bin/bash
 
 get_interface() {
-     echo "$(networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}')" 
+     echo "$(networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}')"
 }
 
 get_wlan_status() {
     local interface=$1
     local status="$(networksetup -getairportpower ${interface} | awk '{print $4}')"
-    echo "$status"    
+    echo "$status"
 }
 set_on() {
     echo "Turning on..."
@@ -24,9 +24,11 @@ WLAN_STATUS=$(get_wlan_status "$WLAN")
 
 case $1 in
     "interface")
-	echo "$WLAN" && exit;;
+	echo "$WLAN"
+	exit;;
     "status")
-	echo "$WLAN_STATUS" && exit;;
+	echo "$WLAN_STATUS"
+	exit;;
     "on")
 	set_on
 	exit;;
@@ -34,7 +36,8 @@ case $1 in
 	set_off
 	exit;;
     "--help")
-	printf "\nUsage: wifi [interface | status | on | off] [--help]\n\n\tinterface\tprint WLAN interface\n\tstatus\t\tprint WLAN status (On/Off)\n\ton\t\tattempt to turn WLAN on\n\toff\t\tattempt to turn WLAN off\n\t--help\t\tthis help screen\n\nIf invoked without parameters or with an invalid parameter,\nthe script will simply attempt to toggle Wi-Fi status.\n\n" && exit;;
+	printf "\nUsage: wifi [interface | status | on | off] [--help]\n\n\tinterface\tprint WLAN interface\n\tstatus\t\tprint WLAN status (On/Off)\n\ton\t\tattempt to turn WLAN on\n\toff\t\tattempt to turn WLAN off\n\t--help\t\tthis help screen\n\nIf invoked without parameters or with an invalid parameter,\nthe script will simply attempt to toggle Wi-Fi status.\n\n"
+	exit;;
 esac
 
 shopt -s nocasematch
@@ -43,4 +46,4 @@ case $WLAN_STATUS in
 	set_off;;
     "Off")
 	set_on;;
-esac	
+esac
