@@ -22,7 +22,7 @@ set_off() {
 WLAN=$(get_interface)
 WLAN_STATUS=$(get_wlan_status "$WLAN")
 
- case $1 in
+case $1 in
     "interface")
 	echo "$WLAN" && exit;;
     "status")
@@ -34,7 +34,7 @@ WLAN_STATUS=$(get_wlan_status "$WLAN")
 	set_off
 	exit;;
     "--help")
-	printf "usage: wifi [interface | status | on | off] [--help]\n\n\tinterface\tprint WLAN interface\n\tstatus\t\tprint WLAN status (On/Off)\n\ton\t\tattempt to turn WLAN on\n\toff\t\tattempt to turn WLAN off\n\t--help\t\tthis help screen\n\nIf invoked without parameters or with an invalid parameter,\nthe script will simply attempt to toggle Wi-Fi status.\n" && exit;;
+	printf "Usage: wifi [interface | status | on | off] [--help]\n\n\tinterface\tprint WLAN interface\n\tstatus\t\tprint WLAN status (On/Off)\n\ton\t\tattempt to turn WLAN on\n\toff\t\tattempt to turn WLAN off\n\t--help\t\tthis help screen\n\nIf invoked without parameters or with an invalid parameter,\nthe script will simply attempt to toggle Wi-Fi status.\n\n" && exit;;
 esac
 
 shopt -s nocasematch
