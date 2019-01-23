@@ -14,6 +14,7 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 
 * **Toggle Wifi.applescript** — this AppleScript toggles system Wi-Fi on and off. Best used with a launcher, e.g. Keyboard Maestro or FastScripts.
 * **ResetAudioOutput.applescript** — this script sets the system audio output to `audioOutput` and output volume to `defaultVolume`. You can set these properties at the beginning of the file to suit your needs. I use this script to mitigate the effects of a very annoying bug where macOS would occasionally shift the audio balance to the right or to the left upon waking from sleep.
+* **FolderSlideshow.applescript** — this script will display image files from a user-selected folder in random order (with user-selected delay).
 
 ### License
 
