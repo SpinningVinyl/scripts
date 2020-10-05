@@ -1,0 +1,44 @@
+#!/bin/bash
+# Strong random password generator.
+# This script creates passwords based on a dictionary of Basque words
+# with some special characters and digits thrown in for good measure.
+# Written by Pavel Urusov in 2019-2020.
+# By default this script works only on macOS since jot is not included
+# with any major Linux distribution, the pbcopy command is also Mac-only.
+# On macOS earlier than El Capitan (10.11), jot doesn't produce results
+# that are random enough for my taste. This problem doesn't exist in
+# modern versions of macOS.
+
+# number of words in the password, change this parameter to adjust
+# password length (most words in the dictionary are 4-7 letters long)
+wordnum=4
+
+# set of special characters used for password generation
+specialchars="!@#$%^&*()?<>{}[]|"
+chrlen=${#specialchars}-1
+
+# initializing the password
+password=""
+
+# main loop
+for i in `seq ${wordnum}`
+do
+    # generating a random key
+    key=`jot -r 1 1000 7618`
+    # pulling a word from the dictionary with the key
+    word=`awk '$1 == "'"${key}"'"{ print $2 }' pwdgen.dic`
+    # capitalising the first letter of the word since some services want a mix of uppercase and lowercase letters
+    word=`echo $word | awk '{print toupper(substr($0,0,1))substr($0,2)}'`
+    # selecting a random special character
+    special=${specialchars:`jot -r 1 1 $chrlen`:1}
+    # generating a random number from 0 to 9
+    digit=`jot -r 1 0 9`
+    # assembling the password
+    password+="-$digit$word$special"
+done
+
+# removing the first dash by offsetting the string by 1
+password=${password:1}
+
+# copying the password to the clipboard
+echo $password | pbcopy
