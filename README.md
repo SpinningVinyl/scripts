@@ -9,6 +9,7 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 * **wifi** — this script allows you to control the Wi-Fi adapter built into your Mac programmatically.
 * **desktop** — this script toggles desktop icons on and off.
 * **ql** — invoke Quick Look from CLI.
+* **pwdgen** — strong random password generator based on a dictionary of Basque words (**pwdgen.dic**)
 
 #### AppleScript
 
