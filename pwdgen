@@ -11,28 +11,43 @@
 
 # number of words in the password, change this parameter to adjust
 # password length (most words in the dictionary are 4-7 letters long)
+# WARNING: should be at least 2
 wordnum=4
 
 # set of special characters used for password generation
-specialchars="!@#$%^&*()?<>{}[]|"
-chrlen=${#specialchars}-1
+specialchars="!@#$%^&*()?;:~<>{}[]/\|"
+chrlen=$((${#specialchars}-1))
+
+# this command gets a random seed from /dev/urandom
+rndseed="od -An -N4 -i /dev/urandom"
 
 # initializing the password
 password=""
 
 # main loop
-for i in `seq ${wordnum}`
+for i in $(seq $wordnum)
 do
+    special=""
+    digit=""
+    
     # generating a random key
-    key=`jot -r 1 1000 7618`
+    key=$(jot -r 1 1000 7618 "$(eval "$rndseed")")
+
     # pulling a word from the dictionary with the key
-    word=`awk '$1 == "'"${key}"'"{ print $2 }' pwdgen.dic`
-    # capitalising the first letter of the word since some services want a mix of uppercase and lowercase letters
-    word=`echo $word | awk '{print toupper(substr($0,0,1))substr($0,2)}'`
-    # selecting a random special character
-    special=${specialchars:`jot -r 1 1 $chrlen`:1}
-    # generating a random number from 0 to 9
-    digit=`jot -r 1 0 9`
+    word=$(awk '$1 == "'"$key"'"{ print $2 }' pwdgen.dic)
+    # capitalizing the first letter of the word since some services want a mix of uppercase and lowercase letters
+    word=$(echo $word | awk '{print toupper(substr($0,0,1))substr($0,2)}')
+
+    if [ "$i" -eq "1" ]
+    then
+    	# selecting a random special character
+	key=$(jot -r 1 0 $chrlen "$(eval "$rndseed")")
+        special=${specialchars:key:1}
+    elif [ "$i" -eq "2" ]
+    then
+        # generating a random number from 0 to 9
+        digit=$(jot -r 1 0 9 "$(eval "$rndseed")")
+    fi
     # assembling the password
     password+="-$digit$word$special"
 done
