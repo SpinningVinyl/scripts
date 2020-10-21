@@ -1,4 +1,4 @@
-## A collection of random scripts for macOS
+## A collection of random scripts for macOS/Linux/WSL
 
 This repository contains some of the scripts that I have written for my personal use over the years.
 
