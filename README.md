@@ -10,7 +10,8 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 * **desktop** — this script toggles desktop icons on and off.
 * **ql** — invoke Quick Look from CLI.
 * **pwdgen** — strong random password generator based on a dictionary of Basque words (**pwdgen.dic**)
-* **passgen** - similar to **pwdgen** but using GNU ``shuf`` and a modern version of ``bash`` (I usually install both with Homebrew) 
+* **passgen** — similar to **pwdgen** but using GNU ``shuf`` and a modern version of ``bash`` (I usually install both with Homebrew) 
+* **passgenw** — same as **passgen** but for WSL
 
 #### AppleScript
 
