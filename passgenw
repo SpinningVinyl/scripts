@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+wordnum=4
+
+# specialchars="!@#$%^&*()?;:~<>{}[]/\|"
+# chrlen=$((${#specialchars} - 1))
+
+words=( $(shuf --random-source=/dev/urandom -r -n "$wordnum" < passgen.asc) )
+
+password=""
+for word in "${words[@]}"
+do
+    num=$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
+    # key=$(shuf --random-source=/dev/urandom -i 0-"$chrlen" -n 1)
+    # special=${specialchars:key:1}
+    password+="-$num${word^}"
+done 
+password=${password:1}
+echo $password | clip.exe
