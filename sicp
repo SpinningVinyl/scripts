@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+cd ~/Projects/sicp
+
+currentsession=$(tmux ls | grep sicp-session | awk '{print $1}')
+
+if [ "$currentsession" == "sicp-session:" ]; then
+	tmux a -t sicp-session
+else
+	tmux new-session -d -s sicp-session 'vim current.scm'
+	tmux split-window -h
+	tmux send 'xvfb-run racket -i -p neil/sicp -l xrepl' ENTER
+	tmux -2 a
+fi
