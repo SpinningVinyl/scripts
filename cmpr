@@ -1,0 +1,2 @@
+#!/bin/bash
+diff --color <(fold -s -w 80 $1) <(fold -s -w 80 $2)
