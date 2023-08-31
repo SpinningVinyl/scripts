@@ -7,7 +7,29 @@ gsquery="https://scholar.google.com/scholar?q="
 giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
 wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
 
-input=$(kdialog --title "Google search" --inputbox "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+zenity_present=false
+kdialog_present=false
+
+if command -v zenity > /dev/null; then
+	zenity_present=true
+fi
+if command -v kdialog > /dev/null; then
+	kdialog_present=true
+fi
+
+if [ "$zenity_present" = true ]; then
+	input=$(zenity --entry --title "Web search" --text "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+elif [ "$kdialog_present" = true ]; then
+	input=$(kdialog --title "Web search" --inputbox "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+else
+	echo "ERROR: please install either zenity or kdialog to use this script."
+	exit 42
+fi
+
+if [ -z $input ]; then
+	exit 0;
+fi
+
 
 if [[ $input = *":"* ]]
 then
