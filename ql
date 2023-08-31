@@ -1,2 +1,0 @@
-#!/bin/sh
-qlmanage -p "$@" > /dev/null 2>&1

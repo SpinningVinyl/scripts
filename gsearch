@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+dquery="https://duckduckgo.com/?q="
+diquery="https://duckduckgo.com/?iax=images&ia=images&q="
+gquery="https://google.com/search?q="
+gsquery="https://scholar.google.com/scholar?q="
+giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
+wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
+
+input=$(kdialog --title "Google search" --inputbox "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+
+if [[ $input = *":"* ]]
+then
+    predicate=$(echo $input | cut -d ':' -f1)
+    searchrq=$(echo $input | cut -d ':' -f2)
+else
+    predicate="nil"
+    searchrq="$input"
+fi
+
+if [ $predicate = "g" ]; then
+    mainquery=$gquery
+elif [ $predicate = "gi" ]; then
+    mainquery=$giquery
+elif [ $predicate = "i" ]; then
+    mainquery=$diquery
+elif [ $predicate = "gs" ]; then
+    mainquery=$gsquery
+elif [ $predicate = "w" ]; then
+    mainquery=$wikiquery
+else
+    mainquery=$dquery
+fi
+
+mainquery+=$searchrq
+
+echo $mainquery | xargs firefox

@@ -1,4 +1,4 @@
-## A collection of random scripts for macOS/Linux/WSL
+## A collection of random scripts for Linux
 
 This repository contains some of the scripts that I have written for my personal use over the years.
 
@@ -6,18 +6,9 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 
 #### Shell scripts
 
-* **wifi** — this script allows you to control the Wi-Fi adapter built into your Mac programmatically.
-* **desktop** — this script toggles desktop icons on and off.
-* **ql** — invoke Quick Look from CLI.
-* **pwdgen** — strong random password generator based on a dictionary of Basque words (**pwdgen.dic**)
-* **passgen** — similar to **pwdgen** but using GNU ``shuf`` and a modern version of ``bash`` (I usually install both with Homebrew) 
-* **passgenw** — same as **passgen** but for WSL
-
-#### AppleScript
-
-* **Toggle Wifi.applescript** — this AppleScript toggles system Wi-Fi on and off. Best used with a launcher, e.g. Keyboard Maestro or FastScripts.
-* **ResetAudioOutput.applescript** — this script sets the system audio output to `audioOutput` and output volume to `defaultVolume`. You can set these properties at the beginning of the file to suit your needs. I use this script to mitigate the effects of a very annoying bug where macOS would occasionally shift the audio balance to the right or to the left upon waking from sleep.
-* **FolderSlideshow.applescript** — this script will display image files from a user-selected folder in random order (with user-selected delay).
+* **cmpr** — compare two files using diff.
+* **gsearch** — this script asks the user for a search query and automatically opens it in Firefox. The search engine is selected based on the prefix, `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia. By default the script uses DuckDuckGo.
+* **passgen** — generate a strong password and copy it to the clipboard. It automatically uses `xclip` or `wl-clipboard` depending on `$XDG_SESSION_NAME`.
 
 ### License
 

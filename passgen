@@ -1,8 +1,8 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 wordnum=4
 
-specialchars="!@#$%^&*()?;:~<>{}[]/\|"
+specialchars="!@#$%^&*?;:~"
 chrlen=$((${#specialchars} - 1))
 
 words=( $(shuf --random-source=/dev/urandom -r -n "$wordnum" < passgen.asc) )
@@ -16,4 +16,11 @@ do
     password+="-$num${word^}$special"
 done 
 password=${password:1}
-echo $password | pbcopy
+
+clipcommand="xclip -i -sel clip"
+
+if [ $XDG_SESSION_TYPE = "wayland" ]; then
+    clipcommand="xargs wl-copy"
+fi
+
+eval "echo '$password' | $clipcommand"
