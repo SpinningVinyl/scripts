@@ -5,7 +5,7 @@ wordnum=4
 specialchars="!@#$%^&*?;:~"
 chrlen=$((${#specialchars} - 1))
 
-words=( $(shuf --random-source=/dev/urandom -r -n "$wordnum" < passgen.asc) )
+words=( $(shuf --random-source=/dev/urandom -r -n "$wordnum" < passgen.dic) )
 
 password=""
 for word in "${words[@]}"
@@ -17,10 +17,28 @@ do
 done 
 password=${password:1}
 
-clipcommand="xclip -i -sel clip"
+if command -v xclip > /dev/null; then
+    xclip_present=true;
+fi
+if command -v wl-copy > /dev/null; then
+    wlcopy_present=true;
+fi
 
-if [ $XDG_SESSION_TYPE = "wayland" ]; then
-    clipcommand="xargs wl-copy"
+if [ $XDG_SESSION_TYPE = "wayland" ]
+then
+    if [ "$wlcopy_present" = true ]; then
+        clipcommand="xargs wl-copy"
+    else
+        echo "ERROR: please install wl-clipboard to use this script in a Wayland session."
+        exit 42
+    fi
+else
+    if [ "$xclip_present" = true ]; then
+        clipcommand="xclip -i -sel clip"
+    else
+        echo "ERROR: please install xclip to use this script in an X11 session."
+        exit 42
+    fi
 fi
 
 eval "echo '$password' | $clipcommand"
