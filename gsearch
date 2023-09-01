@@ -6,6 +6,7 @@ gquery="https://google.com/search?q="
 gsquery="https://scholar.google.com/scholar?q="
 giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
 wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
+soquery="https://stackoverflow.com/search?q="
 
 zenity_present=false
 kdialog_present=false
@@ -40,16 +41,18 @@ else
     searchrq="$input"
 fi
 
-if [ $predicate = "g" ]; then
+if [ "$predicate" = "g" ]; then
     mainquery=$gquery
-elif [ $predicate = "gi" ]; then
+elif [ "$predicate" = "gi" ]; then
     mainquery=$giquery
-elif [ $predicate = "i" ]; then
+elif [ "$predicate" = "i" ]; then
     mainquery=$diquery
-elif [ $predicate = "gs" ]; then
+elif [ "$predicate" = "gs" ]; then
     mainquery=$gsquery
-elif [ $predicate = "w" ]; then
+elif [ "$predicate" = "w" ]; then
     mainquery=$wikiquery
+elif [ "$predicate" = "so" ]; then
+    mainquery=$soquery
 else
     mainquery=$dquery
 fi
