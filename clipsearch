@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# This script launches a web search for the text that is currently in
+# the clipboard. Requires xclip when running in an X11 session and
+# wl-clipboard when running in a Wayland session.
+
+dquery="https://duckduckgo.com/?q="
+diquery="https://duckduckgo.com/?iax=images&ia=images&q="
+gquery="https://google.com/search?q="
+gsquery="https://scholar.google.com/scholar?q="
+giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
+wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
+soquery="https://stackoverflow.com/search?q="
+
+prefix=$1
+
+if [ "$XDG_SESSION_TYPE" = "x11" ]; then
+    searchstr=$( xclip -o -sel clip | tr ' ' '+' | sed 's/&/#26/g' )
+else
+    searchstr=$( wl-paste | tr ' ' '+' | sed 's/&/#26/g' )
+fi
+
+if [ "$prefix" = "g" ]; then
+    query=$gquery
+elif [ "$prefix" = "gi" ]; then
+    query=$giquery
+elif [ "$prefix" = "i" ]; then
+    query=$diquery
+elif [ "$prefix" = "gs" ]; then
+    query=$gsquery
+elif [ "$prefix" = "w" ]; then
+    query=$wikiquery
+elif [ "$prefix" = "so" ]; then
+    query=$soquery
+else
+    query=$dquery
+fi
+
+query+=$searchstr
+
+echo $query | xargs firefox
