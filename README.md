@@ -10,17 +10,21 @@ This script compares two files using diff.
 
 ### gsearch
 
-This script asks the user for a search query and opens it in Firefox. The search engine is selected based on the prefix. `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia, `so:` for Stack Overflow. By default the script uses DuckDuckGo. I use it together with i3wm.
+This script asks the user for a search query and opens it in Firefox. The search engine is selected based on the prefix. `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia, `so:` for Stack Overflow. By default the script uses DuckDuckGo. 
+
+This script requires either `zenity` or `kdialog` to be installed.
 
 ### clipsearch
 
 `clipsearch` takes the contents of the clipboard and opens a web search
 for it in Mozilla Firefox. The search engine used is specified by the
 parameter passed to the script. If there is no parameter or the
-parameter is not recognized, the script uses DuckDuckGo.
+parameter is not recognized, the script uses DuckDuckGo. 
+
+This script automatically uses either `xclip` or `wl-clipboard` depending on `$XDG_SESSION_TYPE`.
 
 ### passgen
-Generates a strong password and copies it to the clipboard. It automatically uses `xclip` or `wl-clipboard` depending on `$XDG_SESSION_NAME`.
+Generates a strong password and copies it to the clipboard. It automatically uses `xclip` or `wl-clipboard` depending on `$XDG_SESSION_TYPE`.
 
 ## License
 
