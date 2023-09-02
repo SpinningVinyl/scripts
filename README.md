@@ -23,6 +23,16 @@ parameter is not recognized, the script uses DuckDuckGo.
 
 This script automatically uses either `xclip` or `wl-clipboard` depending on `$XDG_SESSION_TYPE`.
 
+### urlcleaner
+
+This script takes an URL from the clipboard, removes tracking parameters
+(everything after the question mark) and copies the cleaned-up URL back
+to the clipboard.
+
+Alternatively, if the script is called with the parameter `go`, it will
+open the cleaned-up URL in Firefox instead of copying it to the
+clipboard.
+
 ### passgen
 Generates a strong password and copies it to the clipboard. It automatically uses `xclip` or `wl-clipboard` depending on `$XDG_SESSION_TYPE`.
 
