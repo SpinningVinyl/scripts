@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# ios-browse-media -- easily transfer photos and videos between your Linux PC 
+# and an iPhone/iPad.
+
+# This script uses `ifuse` and `libimobiledevice` to mount the selected app bundle to 
+# the folder specified in $MOUNT_POINT, then opens a file manager window pointing to
+# that folder. Finally, when the user closes the file manager window, the script
+# unmounts the file system.
+
+MOUNT_POINT="$HOME/.ios/media"
+
+if ! command -v ifuse > /dev/null; then
+    echo "ERROR: 'ifuse' not found."
+    exit 42
+elif ! command -v idevicepair > /dev/null; then
+    echo "ERROR: 'libimobiledevice' not found."
+    exit 42
+fi
+
+idevicepair validate > /dev/null
+status=$?
+
+if ! test $status -eq 0; then
+    echo "ERROR: use 'idevicepair pair' to establish a connection between your iDevice and this computer."
+    exit 43
+fi
+
+ifuse "$MOUNT_POINT"
+
+# replace Dolphin with your favourite file manager
+dolphin "${MOUNT_POINT}/" 1> /dev/null 2> /dev/null &
+process_id=$!
+wait $process_id
+# sleep for 3s to make sure that the filesystem is unmountable
+sleep 3
+fusermount -u "$MOUNT_POINT"
