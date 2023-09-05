@@ -4,6 +4,14 @@ This repository contains some of the scripts that I have written for my personal
 
 The scripts are nothing special: I'm not a scripting guru, I'm just a guy who likes to create small snippets of code to automate some of his tasks.
 
+### ios-browse-afc
+
+This script uses `ifuse`, `libimobiledevice` and `fzf` to present the user with the list of applications installed on their iDevice. Once the user chooses an app, its document filesystem is mounted in the folder specified in `$MOUNT_POINT`. The script then opens a file manager window at the mount point, and automatically unmounts the filesystem once the user closes the window.
+
+### ios-browse-media
+
+Mounts the media filesystem of the iDevice connected to the computer in the folder specified in `$MOUNT_POINT`. The script then opens a file manager window at the mount point, and automatically unmounts the filesystem once the user closes the window. 
+
 ### cmpr
 
 This script compares two files using diff.
