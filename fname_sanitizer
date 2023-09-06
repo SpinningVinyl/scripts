@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+for arg in "$@"; do
+    fullname="$arg"
+    if ! [ -f "$fullname" ]; then
+        continue
+    fi
+    fname=$(basename "$fullname")
+    fdir=$(dirname "$fullname")
+    new_name="${fname// /_}"
+    new_name="${new_name//[^[:alnum:]._-]/}"
+    if ! [ "xx$fname" = "xx$new_name" ]; then
+        mv "${fdir}/${fname}" "${fdir}/${new_name}"
+    fi
+done
