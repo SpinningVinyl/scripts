@@ -20,7 +20,7 @@ This script compares two files using diff.
 
 This script renames files to sanitize their names, that is:
 
-- It removes all "invalid" characters from the file name. Invalid characters are anything that is not alphanumeric (as defined by your locale), `.` (period), `_` (underscore) and `-` (dash).
+- It removes all "invalid" characters from the file name. "Invalid" in this context is anything that is not alphanumeric (as defined by your locale), `.` (period), `_` (underscore) and `-` (dash).
 - It replaces all spaces in the filenames with underscores.
 
 Usage:
