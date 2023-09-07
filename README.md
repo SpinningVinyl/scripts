@@ -60,7 +60,7 @@ Generates a strong password and copies it to the clipboard. It automatically use
 ### tstamp
 
 This script reads the last modification date of the specified file and prepends it to the name of the file. If invoked without additional parameters, the date is formatted as "%Y-%m-%d". If invoked with the
-optional parameter '-t', the date is formatted as "%Y-%m-&dT%H-%M".
+optional parameter '-t', the date is formatted as "%Y-%m-%dT%H-%M".
 
 For example, if you use:
 
