@@ -16,6 +16,19 @@ Mounts the media filesystem of the iDevice connected to the computer in the fold
 
 This script compares two files using diff.
 
+### fname_sanitizer
+
+This script renames files to sanitize their names, that is:
+
+- It removes all "invalid" characters from the file name. Invalid characters are anything that is not alphanumeric (as defined by your locale), `.` (period), `_` (underscore) and `-` (dash).
+- It replaces all spaces in the filenames with underscores.
+
+Usage:
+
+```bash
+fname_sanitizer <filename1> <filename2> <filename3> ...
+```
+
 ### gsearch
 
 This script asks the user for a search query and opens it in Firefox. The search engine is selected based on the prefix. `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia, `so:` for Stack Overflow. By default the script uses DuckDuckGo. 
@@ -44,6 +57,43 @@ clipboard.
 ### passgen
 Generates a strong password and copies it to the clipboard. It automatically uses `xclip` or `wl-clipboard` depending on `$XDG_SESSION_TYPE`.
 
+### tstamp
+
+This script reads the last modification date of the specified file and prepends it to the name of the file. If invoked without additional parameters, the date is formatted as "%Y-%m-%d". If invoked with the
+optional parameter '-t', the date is formatted as "%Y-%m-&dT%H-%M".
+
+For example, if you use:
+
+```bash
+tstamp abc.txt
+```
+
+The file will be renamed to `2023_09_01_abc.txt`.
+
+But if you use:
+
+```bash
+tstamp abc.txt -t
+```
+
+Then the file will be renamed to `2023-09-01T07-40_abc.txt`.
+
+### dstamp_all
+
+A wrapper script for `tstamp` that will prepend the last modification date to the names of all files passed to it. Usage:
+
+```bash
+dstamp_all <filename1> <filename2> <filename3> ...
+```
+
+### tstamp_all
+
+A wrapper script for `tstamp` that will prepend the last modification date *and time* to the names of all files passed to it. Usage:
+
+```bash
+tstamp_all <filename1> <filename2> <filename3> ...
+```
+
 ## License
 
-These scripts are free for personal non-commercial use. Any and all derivative works must be released under the same conditions. You must also credit me as the author of the original code upon which your code is based.
+BSD 3-clause. See LICENSE.TXT for details.
