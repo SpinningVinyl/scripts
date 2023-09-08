@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+invalid_file_name="invalid"
+valid_file_name="valid"
+
+file_name=$1
+val=$(echo "${#file_name}")
+
+# I want my file names to be no longer than 128 characters
+if [ $val -gt 128 ]; then
+   echo "$invalid_file_name";
+   exit
+fi
+
+# file name can't be empty
+if [[ -z $file_name ]]; then
+   echo "$invalid_file_name";
+   exit
+fi
+
+# '.' and '..' are illegal file names
+if [[ $file_name == "." ]] || [[ $file_name == ".." ]]; then
+    echo "$invalid_file_name";
+    exit
+fi
+
+# checks that the string contains valid characters (alphanumeric, '.', '_' or '-')
+if ! [[ $file_name =~ ^[[:alnum:]._-]+$ ]]; then
+    echo "$invalid_file_name";
+    exit
+fi
+
+# checks that the first symbol is an alphanum character or a period
+_file_name=$(echo "$file_name" | cut -c1-1)
+if ! [[ $_file_name =~ ^[[:alnum:].]+$ ]]; then
+    # Checks the first character
+    echo "$invalid_file_name";
+    exit
+fi
+
+echo "$valid_file_name";
+
