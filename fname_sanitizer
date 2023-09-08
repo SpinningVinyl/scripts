@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
 
+# This script renames files to sanitize their names, maening that it:
+# 1) removes all "illegal" characters from the file name. "Illegal" in this context
+# is anything that is not alphanumeric (as defined by your locale), '.' (period),
+# '_' (underscore) or '-' (dash).
+# 2) it replaces all spaces in file names with underscores.
+# Usage:
+# % fname_sanitizer <filename1> <filename2> <filename3> ...
+
+if [ -z "$1" ]; then
+    echo "USAGE: fname_sanitizer <filename1> <filename2> <filename3> ..."
+    exit 0
+fi
+
 for arg in "$@"; do
     fullname="$arg"
+    # if not a file, skip
     if ! [ -f "$fullname" ]; then
         continue
     fi
@@ -9,7 +23,7 @@ for arg in "$@"; do
     fdir=$(dirname "$fullname")
     new_name="${fname// /_}"
     new_name="${new_name//[^[:alnum:]._-]/}"
-    if ! [ "xx$fname" = "xx$new_name" ]; then
+    if ! [ "$fname" = "$new_name" ]; then
         mv "${fdir}/${fname}" "${fdir}/${new_name}"
     fi
 done

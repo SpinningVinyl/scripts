@@ -38,4 +38,4 @@ fi
 
 query+=$searchstr
 
-echo $query | xargs firefox
+echo "$query" | xargs firefox

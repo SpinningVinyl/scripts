@@ -11,7 +11,7 @@ else
     exit 42
 fi
 
-if [ "x$1" = "xgo" ]; then
+if [ "$1" = "go" ]; then
     echo "$url" | xargs firefox
 else 
     echo "$url" | xclip -i -sel clip

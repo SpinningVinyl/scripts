@@ -12,7 +12,8 @@
 MOUNT_POINT="$HOME/.ios/afc"
 
 get_id() {
-    local id="$(ifuse --list-apps | grep -F "$1" | cut -d ',' -f1)"
+    local id
+    id="$(ifuse --list-apps | grep -F "$1" | cut -d ',' -f1)"
     echo "$id"
 }
 
@@ -39,7 +40,7 @@ echo "* Please select an application bundle to mount."
 echo "** Mount point: ${MOUNT_POINT}"
 selection="$(ifuse --list-apps | cut -d ',' -f3 | sed 's/"//g' | fzf --height=10% --layout=reverse)"
 
-if [ -z $selection ]; then
+if [ -z "$selection" ]; then
     echo "User cancellation, exiting."
     exit 0
 fi

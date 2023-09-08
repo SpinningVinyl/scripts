@@ -27,15 +27,15 @@ else
 	exit 42
 fi
 
-if [ -z $input ]; then
+if [ -z "$input" ]; then
 	exit 0;
 fi
 
 
 if [[ $input = *":"* ]]
 then
-    predicate=$(echo $input | cut -d ':' -f1)
-    searchrq=$(echo $input | cut -d ':' -f2)
+    predicate=$(echo "$input" | cut -d ':' -f1)
+    searchrq=$(echo "$input" | cut -d ':' -f2)
 else
     predicate="nil"
     searchrq="$input"
@@ -59,4 +59,4 @@ fi
 
 mainquery+=$searchrq
 
-echo $mainquery | xargs firefox
+echo "$mainquery" | xargs firefox

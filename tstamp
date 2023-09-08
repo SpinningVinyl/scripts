@@ -24,7 +24,7 @@ fi
 
 timeopt="$2"
 
-if [ "x${timeopt}" = "x-t" ]; then
+if [ "${timeopt}" = "-t" ]; then
 	datetime="$(date -r "$1" '+%Y-%m-%dT%H-%M')"
 else
 	datetime="$(date -r "$1" '+%Y-%m-%d' )"

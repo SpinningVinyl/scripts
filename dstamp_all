@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# this is a wrapper script for `tstamp`
+
 for arg in "$@"; do
     tstamp "$arg"
 done
