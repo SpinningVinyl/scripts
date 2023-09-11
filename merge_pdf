@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# This script merges PDF documents using GhostScript.
+# Usage: merge_pdf <output.pdf> <input1.pdf> <input2.pdf> [input3.pdf] ...
+
+if [ $# -lt 3 ]
+then
+    echo "USAGE: merge_pdf <output.pdf> <input1.pdf> <input2.pdf> [input3.pdf] ..."
+    exit 0
+fi
+
+merged="$1"
+echo "Output file: ${merged}"
+echo "Processing PDF documents..."
+
+for arg in "${@:2}"; do
+	echo "$arg"
+done | xargs gs -q -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="$merged" -dBATCH
+
+echo "Done."
