@@ -15,6 +15,6 @@ echo "Processing PDF documents..."
 
 for arg in "${@:2}"; do
 	echo "$arg"
-done | xargs gs -q -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="$merged" -dBATCH
+done | tr \\n \\0 | xargs -0 gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -o "$merged"
 
 echo "Done."
