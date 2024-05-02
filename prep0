@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# 
+# This script prepends 0 to the name of the file.
+#
+# For example:
+# % prep0 1.jpg    -> 01.jpg
+
+fname=$(basename "$1")
+fdir=$(dirname "$1")
+
+if [ -z "$1" ]; then
+	echo "USAGE: prep0 <filename>"
+	exit 0
+fi
+
+if ! [ -f "$1" ]; then
+	echo "ERROR: '$1' is not a file."
+	exit 45
+fi
+
+newfname="0${fname}"
+
+echo "Original name: '${fdir}/${fname}'."
+echo "Renaming to: '${fdir}/${newfname}'..."
+
+mv "$fdir/$fname" "$fdir/$newfname"

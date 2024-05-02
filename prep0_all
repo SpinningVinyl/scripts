@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# this is a wrapper script for `prep0`
+
+for arg in "$@"; do
+    prep0 "$arg"
+done
