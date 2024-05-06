@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+if [ $# -lt 2 ]
+then
+    echo "USAGE: pdfmerge <file1.pdf> <file2.pdf> [file3.pdf] ..."
+    exit 0
+fi
+
+zenity_present=false
+kdialog_present=false
+
+if command -v zenity > /dev/null; then
+    zenity_present=true
+fi
+
+if command -v kdialog > /dev/null; then
+    kdialog_present=true
+fi
+
+if [ "$zenity_present" = true ]; then
+    input=$(zenity --entry --title "File name" --text "Enter the name of the new file" | tr ' ' '_')
+elif [ "$kdialog_present" = true ]; then
+    input=$(kdialog --title "File name" --inputbox "Enter the name of the new file" | tr ' ' '_')
+else
+    echo "ERROR: please install either zenity or kdialog to use this script."
+    exit 42
+fi
+
+valid=$(fname_validtor "$input")
+
+if [[ "$valid" = "invalid" ]]; then
+    exit 0
+fi
+
+# check if the input ends in ".pdf"
+if [[ $input = *".pdf" ]] || [[ $input = *".PDF" ]]
+then
+    output_file=$input
+else
+    output_file="${input}.pdf"
+fi
+
+for arg in "$@"; do
+    echo "$arg"
+done | tr \\n \\0 | xargs -0 merge_pdf "$output_file"
