@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# This script uses ghostscript to reduce the size of large PDF files.
+# It is mostly useful for files containing a lot of high resolution images.
+# The script does not override the original file, it creates a new file
+# with "_compressed" appended to the filename.
+#
+# For example:
+# % pdfcompress my_giant_file.pdf    -> my_giant_file_compressed.pdf
+
+
+# no parameters passed
+if [ -z "$1" ]; then
+    echo "USAGE: pdfcompress <file.pdf>"
+    exit 0
+fi
+
+# check that the first parameter is a file
+if ! [ -f "$1" ]; then
+    echo "ERROR: '$1' is not a file."
+    exit 42
+fi
+
+# extract directory, filename and extension from the parameter
+fname=$(basename "$1")
+fdir=$(dirname "$1")
+fext=$(echo "$fname" | sed 's/^.*\.//')
+fname=$(echo "$fname" | sed 's/\.[^.]*$//')
+
+# output file name
+fout="${fdir}/${fname}_compressed.${fext}"
+
+# compress the file using ghostscript
+gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -o "$fout" "$1"
+
+# send a notification that we're done (useful when processing files with hundreds of pages)
+notify-send "Done" "Finished compressing '$1'."

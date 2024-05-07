@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# this is a wrapper script for `pdfcompress`
+
+for arg in "$@"; do
+    pdfcompress "$arg"
+done
