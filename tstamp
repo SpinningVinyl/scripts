@@ -9,13 +9,14 @@
 # % tstamp abc.txt    -> 2023-09-01_abc.txt
 # % tstamp abc.txt -t -> 2023-09-01T07-40_abc.txt
 
-fname=$(basename "$1")
-fdir=$(dirname "$1")
-
 if [ -z "$1" ]; then
 	echo "USAGE: tstamp <filename> [-t]"
 	exit 0
 fi
+
+fname=$(basename "$1")
+fdir=$(dirname "$1")
+
 
 if ! [ -f "$1" ]; then
 	echo "ERROR: '$1' is not a file."
