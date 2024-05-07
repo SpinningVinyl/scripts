@@ -30,7 +30,7 @@ else
 	datetime="$(date -r "$1" '+%Y-%m-%d' )"
 fi
 
-newfname="${datetime}_${fname}"
+newfname="${datetime}__${fname}"
 
 echo "Original name: '${fdir}/${fname}'."
 echo "Renaming to: '${fdir}/${newfname}'..."
