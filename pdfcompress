@@ -2,8 +2,8 @@
 
 # This script uses ghostscript to reduce the size of large PDF files.
 # It is mostly useful for files containing a lot of high resolution images.
-# The script does not override the original file, it creates a new file
-# with "_compressed" appended to the filename.
+# The script does not override the original file, instead it creates a new
+# file with "_compressed" appended to the filename.
 #
 # For example:
 # % pdfcompress my_giant_file.pdf    -> my_giant_file_compressed.pdf
