@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+curpath=$(pwd)/"$1"
+
+if [ "$XDG_SESSION_TYPE" = "Wayland" ]; then
+   copy_command="wl-copy"
+else
+   copy_command="xclip -selection clipboard"
+fi
+
+echo -n $curpath | $copy_command
+
+notify-send "Path copied to clipboard" "$curpath"
+
+
