@@ -7,11 +7,18 @@
 #
 # For example:
 # % pdfcompress my_giant_file.pdf    -> my_giant_file_compressed.pdf
+#
+# The second optional parameter specifies the quality level. By default
+# images in the output file are resized to 150dpi (optimal for on-screen
+# viewing), but if the script is called with the second parameter set
+# to `-p`, the images would be resized to 300dpi instead (which is
+# perfect for printing), e.g:
+# % pdfcompress my_giant_file.pdf -p
 
 
 # no parameters passed
 if [ -z "$1" ]; then
-    echo "USAGE: pdfcompress <file.pdf>"
+    echo "USAGE: pdfcompress <file.pdf> [-p]"
     exit 0
 fi
 
@@ -19,6 +26,12 @@ fi
 if ! [ -f "$1" ]; then
     echo "ERROR: '$1' is not a file."
     exit 42
+fi
+
+if [ -z "$2" ]; then
+    quality="/ebook"
+elif [[ "$2" = "-p" ]]; then
+    quality="/printer"
 fi
 
 # extract directory, filename and extension from the parameter
@@ -30,8 +43,14 @@ fname=$(echo "$fname" | sed 's/\.[^.]*$//')
 # output file name
 fout="${fdir}/${fname}_compressed.${fext}"
 
+# don't overwrite the output file
+if [ -f "$fout" ]; then
+    notify-send "Can't compress PDF" "File '$fout' already exists."
+    exit 43
+fi
+
 # compress the file using ghostscript
-gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -o "$fout" "$1"
+gs -sDEVICE=pdfwrite -dPDFSETTINGS="$quality" -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -o "$fout" "$1"
 
 # send a notification that we're done (useful when processing files with hundreds of pages)
 notify-send "Done" "Finished compressing '$1'."
