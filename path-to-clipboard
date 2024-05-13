@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-curpath=$(pwd)/"$1"
+if [ "${1:0:1}" = "/" ]; then
+   curpath="$1"
+else
+   curpath=$(pwd)/"$1"
+fi
 
 if [ "$XDG_SESSION_TYPE" = "Wayland" ]; then
    copy_command="wl-copy"
