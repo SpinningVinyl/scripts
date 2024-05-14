@@ -4,15 +4,35 @@ if command -v xclip > /dev/null; then
     xclip_found=true
 fi
 
-if [ "$xclip_found" = true ]; then
-    url=$( xclip -o -sel clip | cut -d '?' -f1 )
-else
-    echo "ERROR: xclip not found."
-    exit 42
+if command -v wl-paste > /dev/null; then
+    wlclip_found=true
 fi
+
+if [ "$XDG_SESSION_TYPE" = "x11" ]
+then
+    if [ "$xclip_found" = "true" ]; then
+        url=$( xclip -o -sel clip )
+    else
+        echo "ERROR: xclip not found."
+        exit 1
+    fi
+else
+    if [ "$wlclip_found" = "true" ]; then
+        url=$( wl-paste )
+    else
+        echo "ERROR: wl-clipboard not found."
+        exit 1
+    fi
+fi
+
+url=$( echo "$url" | cut -d '?' -f1 )
 
 if [ "$1" = "go" ]; then
     echo "$url" | xargs firefox
 else 
-    echo "$url" | xclip -i -sel clip
+    if [ "$XDG_SESSION_TYPE" = "x11" ]; then
+        echo "$url" | xclip -i -sel clip
+    else
+        echo "$url" | wl-copy
+    fi
 fi
