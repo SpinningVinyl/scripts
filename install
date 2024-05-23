@@ -21,9 +21,9 @@ if [ -d "$scriptdir" ]; then
         realfilepath=$( realpath "$file" )
         binlinkpath="$homebindir/$basefilename"
         if [ -e "$binlinkpath" ]; then
-            echo " * * $binlinkpath already exists, skipping..."
+            echo "   * $binlinkpath already exists, skipping..."
         elif [ -f "$file" ]; then
-            echo " * * Linking $realfilepath to $binlinkpath..."
+            echo "   * Linking $realfilepath to $binlinkpath..."
             ln -sf "$realfilepath" "$binlinkpath"
         fi
     done
