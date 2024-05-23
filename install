@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+shrc="$HOME/.bashrc"
+
+echo " * Finding the location of the script..."
+
+# shellcheck disable=SC2128
+if [[ $BASH_SOURCE = */* ]]; then
+    datadir="${BASH_SOURCE%/*}/"
+else
+    datadir="./"
+fi
+
+scriptdir="${datadir}bin"
+homebindir="$HOME/bin"
+if [ -d "$scriptdir" ]; then
+    echo " * Symlinking user scripts to $HOME/bin"
+    mkdir -p "$homebindir"
+    for file in "$scriptdir/"*; do
+        basefilename=$( basename "$file" )
+        realfilepath=$( realpath "$file" )
+        binlinkpath="$homebindir/$basefilename"
+        if [ -e "$binlinkpath" ]; then
+            echo " * * $binlinkpath already exists, skipping..."
+        elif [ -f "$file" ]; then
+            echo " * * Linking $realfilepath to $binlinkpath..."
+            ln -sf "$realfilepath" "$binlinkpath"
+        fi
+    done
+    # shellcheck disable=SC2016
+    if ! [[ $PATH = *"$HOME/bin:"* ]]; then
+        echo 'export PATH=$HOME/bin:$PATH' >> "$shrc"
+    fi
+fi
