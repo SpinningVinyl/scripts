@@ -43,6 +43,7 @@ fi
 
 if [ "$predicate" = "g" ]; then
     mainquery=$gquery
+    searchrq+='&udm=14'
 elif [ "$predicate" = "gi" ]; then
     mainquery=$giquery
 elif [ "$predicate" = "i" ]; then

@@ -38,4 +38,8 @@ fi
 
 query+=$searchstr
 
+if [ "$prefix" = "g" ]; then
+    query+="&udm=14"
+fi
+
 echo "$query" | xargs firefox
