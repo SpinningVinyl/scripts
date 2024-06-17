@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# tile coordinates:
+#            A B    C    D    E
+pos_x_arr=(0 4 1100 1100 1100 1920)
+pos_y_arr=(0 4 4    4    549  0)
+
+# tile sizes:
+#                A    B    C   D   E
+size_x_arr=(1920 1092 816  816 816 1280)
+size_y_arr=(1048 1039 1039 545 495 1024)
+
+window_id=$(kdotool getactivewindow)
+
+if [ $# -eq 0 ]; then
+	echo "USAGE: kwin-tile TILING_ZONE"
+	exit 1
+fi
+
+pos_x=${pos_x_arr[$1]}
+# echo "pos_x: $pos_x"
+pos_y=${pos_y_arr[$1]}
+# echo "pos_y: $pos_y"
+size_x=${size_x_arr[$1]}
+# echo "size_x: $size_x"
+size_y=${size_y_arr[$1]}
+# echo "size_y: $size_y"
+
+kdotool windowmove "$window_id" "$pos_x" "$pos_y"
+kdotool windowsize "$window_id" "$size_x" "$size_y"

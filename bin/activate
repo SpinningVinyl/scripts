@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+	echo "USAGE: activate PROGRAM_NAME"
+fi
+
+window_id=$(kdotool search "$1" | head -n 1)
+if [ "$window_id" = "" ]; then
+	$1
+else
+	kdotool windowactivate "$window_id"
+fi
+
