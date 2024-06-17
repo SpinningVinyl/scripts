@@ -4,6 +4,14 @@ This repository contains some of the scripts that I have written for my personal
 
 The scripts are nothing special: I'm not a scripting guru, I'm just a guy who likes to create small snippets of code to automate some of his tasks.
 
+### kwin-tile
+
+This script automatically tiles the active window according to the coordinates set in the script. Works only with KDE Plasma/KWin and requires [kdotool](https://github.com/jinliu/kdotool).
+
+### activate
+
+This script activates the window that matches the application name. If such a window is not found, it launches the application instead. Works only with KDE Plasma/KWin and requires `kdotool`.
+
 ### ios-browse-afc
 
 This script uses `ifuse`, `libimobiledevice` and `fzf` to present the user with the list of applications installed on their iDevice. Once the user chooses an app, its document filesystem is mounted in the folder specified in `$MOUNT_POINT`. The script then opens a file manager window at the mount point, and automatically unmounts the filesystem once the user closes the window.
