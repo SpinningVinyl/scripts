@@ -11,6 +11,10 @@
 
 MOUNT_POINT="$HOME/.ios/afc"
 
+if ! [ -d $MOUNT_POINT ]; then
+	mkdir -p "$MOUNT_POINT"
+fi
+
 get_id() {
     local id
     id="$(ifuse --list-apps | grep -F "$1" | cut -d ',' -f1)"
@@ -45,7 +49,12 @@ if [ -z "$selection" ]; then
     exit 0
 fi
 
-bundle_id="$(get_id $selection)"
+# echo $selection
+
+bundle_id=$(get_id $selection | sed 's/"//g')
+
+echo $bundle_id
+
 ifuse --documents "$bundle_id" "$MOUNT_POINT"
 
 # replace Dolphin with your favourite file manager
