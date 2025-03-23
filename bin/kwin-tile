@@ -4,12 +4,12 @@
 # index the arrays.
 
 # tile coordinates:
-#            A B    C    D    E
+#             Y  U    I     O    P
 pos_x_arr=(0  4  1633 1633  1633 2560)
 pos_y_arr=(40 44 44   44    803  0)
 
 # tile sizes:
-#                A    B    C   D   E
+#                Y    U    I   O   P
 size_x_arr=(2560 1625 923  923 923 1280)
 size_y_arr=(1400 1392 1392 759 633 1024)
 
