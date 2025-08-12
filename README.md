@@ -6,11 +6,11 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 
 ### kwin-tile
 
-This script automatically tiles the active window according to the coordinates set in the script. Works only with KDE Plasma/KWin and requires [kdotool](https://github.com/jinliu/kdotool).
+This script automatically tiles the active window according to the coordinates set in the script. Works only with KDE Plasma/KWin and requires [kwst](https://github.com/SpinningVinyl/kwst).
 
 ### activate
 
-This script activates the window that matches the application name. If such a window is not found, it launches the application instead. Works only with KDE Plasma/KWin and requires `kdotool`.
+This script activates the window that matches the application name. If such a window is not found, it launches the application instead. Works only with KDE Plasma/KWin and requires `kwst`.
 
 ### ios-browse-afc
 
