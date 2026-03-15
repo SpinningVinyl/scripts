@@ -10,4 +10,5 @@ if [ "$window_id" = "" ]; then
 else
 	kwst activate-window "$window_id"
 fi
+qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut MoveMouseToFocus
 
