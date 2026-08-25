@@ -17,9 +17,9 @@
 
 
 # no parameters passed
-if [ -z "$1" ]; then
+if [ -z "$1" ] || [ "$#" -gt 2 ]; then
     echo "USAGE: pdfcompress <file.pdf> [-p]"
-    exit 0
+    exit 1
 fi
 
 # check that the first parameter is a file
@@ -32,25 +32,45 @@ if [ -z "$2" ]; then
     quality="/ebook"
 elif [[ "$2" = "-p" ]]; then
     quality="/printer"
+else
+    echo "ERROR: unknown quality parameter." 1>&2
+    exit 43
 fi
 
-# extract directory, filename and extension from the parameter
-fname=$(basename "$1")
-fdir=$(dirname "$1")
-fext=$(echo "$fname" | sed 's/^.*\.//')
-fname=$(echo "$fname" | sed 's/\.[^.]*$//')
+# extract directory, filename and extension from the file path
+input=$1
+fname=${input##*/}
+fdir=${input%/*}
 
-# output file name
-fout="${fdir}/${fname}_compressed.${fext}"
+if [[ "$fdir" == "$input" ]]; then
+    fdir=.
+elif [[ -z "$fdir" ]]; then
+    fdir=/
+fi
+
+stem=${fname%.*}
+
+if [[ -z "$stem" || ${fname,,} != *.pdf ]]; then
+    echo "ERROR: '$input' is not a PDF file." >&2
+    exit 44
+fi
+
+fout="${fdir}/${stem}_compressed.pdf"
 
 # don't overwrite the output file
-if [ -f "$fout" ]; then
+if [[ -e "$fout" || -L "$fout" ]]; then
     notify-send "Can't compress PDF" "File '$fout' already exists."
-    exit 43
+    exit 45
 fi
 
 # compress the file using ghostscript
 gs -sDEVICE=pdfwrite -dPDFSETTINGS="$quality" -dCompatibilityLevel=1.4 -dNOPAUSE -dBATCH -o "$fout" "$1"
+gs_exit_status=$?
+
+if (( gs_exit_status != 0 )); then
+    echo "Ghostscript failed with status $gs_exit_status." >&2
+    exit "$gs_exit_status"
+fi
 
 # send a notification that we're done (useful when processing files with hundreds of pages)
-notify-send "Done" "Finished compressing '$1'."
+notify-send "Done" "Finished compressing '$1'." || :
