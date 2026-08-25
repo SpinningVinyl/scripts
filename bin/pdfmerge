@@ -3,7 +3,7 @@
 if [ $# -lt 2 ]
 then
     echo "USAGE: pdfmerge <file1.pdf> <file2.pdf> [file3.pdf] ..."
-    exit 0
+    exit 1
 fi
 
 zenity_present=false
@@ -18,28 +18,27 @@ if command -v kdialog > /dev/null; then
 fi
 
 if [ "$zenity_present" = true ]; then
-    input=$(zenity --entry --title "File name" --text "Enter the name of the new file" | tr ' ' '_')
+    file_name=$(zenity --entry --title "File name" --text "Enter the name of the new file" | tr ' ' '_')
 elif [ "$kdialog_present" = true ]; then
-    input=$(kdialog --title "File name" --inputbox "Enter the name of the new file" | tr ' ' '_')
+    file_name=$(kdialog --title "File name" --inputbox "Enter the name of the new file" | tr ' ' '_')
 else
-    echo "ERROR: please install either zenity or kdialog to use this script."
-    exit 42
+    echo "ERROR: please install either zenity or kdialog to use this script." 1>&2
+    exit 1
 fi
 
-valid=$(fname_validtor "$input")
+valid=$(fname_validator "$file_name")
 
 if [[ "$valid" = "invalid" ]]; then
-    exit 0
+    echo "Invalid name of the output file." 1>&2
+    exit 1
 fi
 
 # check if the input ends in ".pdf"
-if [[ $input = *".pdf" ]] || [[ $input = *".PDF" ]]
+if [[ ${file_name^^} = *".PDF" ]]
 then
-    output_file=$input
+    output_file=$file_name
 else
-    output_file="${input}.pdf"
+    output_file="${file_name}.pdf"
 fi
 
-for arg in "$@"; do
-    echo "$arg"
-done | tr \\n \\0 | xargs -0 merge_pdf "$output_file"
+merge_pdf "$output_file" "$@"

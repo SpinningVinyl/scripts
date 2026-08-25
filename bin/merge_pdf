@@ -6,15 +6,37 @@
 if [ $# -lt 3 ]
 then
     echo "USAGE: merge_pdf <output.pdf> <input1.pdf> <input2.pdf> [input3.pdf] ..."
-    exit 0
+    exit 1
 fi
 
-merged="$1"
+merged=$1
+shift
+
+if ! merged_path=$(realpath -m -- "$merged"); then
+    echo "Cannot resolve output path: $merged" >&2
+    exit 1
+fi
+
+for input in "$@"; do
+    if ! input_path=$(realpath -- "$input"); then
+        echo "Cannot resolve input path: $input" >&2
+        exit 1
+    fi
+    if [[ "$merged_path" == "$input_path" ]]; then
+        echo "Output file is also an input: $input" >&2
+        exit 1
+    fi
+done
+
 echo "Output file: ${merged}"
 echo "Processing PDF documents..."
 
-for arg in "${@:2}"; do
-	echo "$arg"
-done | tr \\n \\0 | xargs -0 gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -o "$merged"
+gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -o "$merged" "$@"
+gs_exit_status=$?
+
+if (( gs_exit_status != 0 )); then
+    echo "Ghostscript failed with status $gs_exit_status." >&2
+    exit "$gs_exit_status"
+fi
 
 echo "Done."
