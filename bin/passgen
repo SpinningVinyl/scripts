@@ -8,7 +8,7 @@ DICT_DIR="$(dirname "$(readlink -f "$0")")"
 
 wordnum=4
 specialchars="!@#$%^&*?;:~"
-rnd="dev/urandom"
+rnd="/dev/urandom"
 
 chrlen=$((${#specialchars} - 1))
 

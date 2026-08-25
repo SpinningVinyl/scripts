@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# This script copies the full file path to clipboard
+
+if [ "$#" -ne 1 ]; then
+    echo "This script requires exactly one parameter." 1>&2
+    exit 1
+fi
+
+# check if absolute path
+if [ "${1:0:1}" = "/" ]; then
+   curpath="$1"
+else
+   curpath=$(pwd)/"$1"
+fi
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+   copy_command=(wl-copy)
+else
+   copy_command=(xclip -selection clipboard)
+fi
+
+printf '%s' "$curpath" | "${copy_command[@]}"
+status=$?
+
+if [ $status -ne 0 ]; then
+   exit 1
+fi
+
+if ! command -v "notify-send" >/dev/null 2>&1; then
+   echo "Install notify-send to see notifications."
+   exit 0
+fi
+
+notify-send "Path copied to clipboard" "$curpath" || :
