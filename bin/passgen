@@ -7,8 +7,9 @@
 DICT_DIR="$(dirname "$(readlink -f "$0")")"
 
 wordnum=4
-
 specialchars="!@#$%^&*?;:~"
+rnd="dev/urandom"
+
 chrlen=$((${#specialchars} - 1))
 
 dict="${DICT_DIR}/passgen.dic"
@@ -24,7 +25,7 @@ then
     exit 1
 fi
 
-mapfile -t words < <(shuf --random-source=/dev/urandom -r -n "$wordnum" < "$dict")
+mapfile -t words < <(shuf --random-source="$rnd" -r -n "$wordnum" < "$dict")
 
 if ! [[ ${#words[@]} = "$wordnum" ]]; then
     echo "ERROR: could not read/shuffle the dictionary."
@@ -34,8 +35,8 @@ fi
 password=""
 for word in "${words[@]}"
 do
-    num=$(shuf --random-source=/dev/urandom -i 0-9 -n 1)
-    key=$(shuf --random-source=/dev/urandom -i 0-"$chrlen" -n 1)
+    num=$(shuf --random-source="$rnd" -i 0-9 -n 1)
+    key=$(shuf --random-source="$rnd" -i 0-"$chrlen" -n 1)
     special=${specialchars:key:1}
     password+="-$num${word^}$special"
 done 
