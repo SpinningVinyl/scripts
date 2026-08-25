@@ -13,17 +13,50 @@ if [ -z "$1" ]; then
     exit 0
 fi
 
+failed_files=()
+counter=0
+
 for arg in "$@"; do
     fullname="$arg"
     # if not a file, skip
     if ! [ -f "$fullname" ]; then
         continue
     fi
-    fname=$(basename "$fullname")
-    fdir=$(dirname "$fullname")
+    fname=$(basename -- "$fullname")
+    fdir=$(dirname -- "$fullname")
     new_name="${fname// /_}"
     new_name="${new_name//[^[:alnum:]._-]/}"
-    if ! [ "$fname" = "$new_name" ]; then
-        mv "${fdir}/${fname}" "${fdir}/${new_name}"
+
+    if [[ "$fname" != "$new_name" ]]; then
+        if [[ -z "$new_name" || "$new_name" == "." || "$new_name" == ".." ]]; then
+            echo "ERROR: sanitized name is invalid: '$new_name'." >&2
+            failed_files+=("$fullname")
+            continue
+        fi
+
+        target="${fdir}/${new_name}"
+
+        if [[ -e "$target" || -L "$target" ]]; then
+            echo "ERROR: destination already exists: '$target'." >&2
+            failed_files+=("$fullname")
+            continue
+        fi
+
+        if ! mv -- "$fullname" "$target"; then
+            echo "ERROR: rename failed: '$fullname' to '$target'." >&2
+            failed_files+=("$fullname")
+            continue
+        fi
+        counter=$((counter+1))
     fi
 done
+
+echo "Successfully renamed $counter file(s)."
+
+if ((${#failed_files[@]})); then
+    printf "\nThe following files were not renamed:\n"
+    printf '%s\n' "${failed_files[@]}"
+    exit 1
+fi
+
+exit 0
