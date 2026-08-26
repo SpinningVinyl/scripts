@@ -5,22 +5,29 @@
 # For example:
 # % prep0 1.jpg    -> 01.jpg
 
-fname=$(basename "$1")
-fdir=$(dirname "$1")
-
-if [ -z "$1" ]; then
-	echo "USAGE: prep0 <filename>"
-	exit 0
+if [ "$#" -ne 1 ]; then
+    echo "USAGE: prep0 <filename>"
+    exit 1
 fi
 
 if ! [ -f "$1" ]; then
 	echo "ERROR: '$1' is not a file."
-	exit 45
+	exit 1
 fi
 
+fname=$(basename -- "$1")
+fdir=$(dirname -- "$1")
+fsource="${fdir}/${fname}"
+
 newfname="0${fname}"
+target="${fdir}/${newfname}"
 
-echo "Original name: '${fdir}/${fname}'."
-echo "Renaming to: '${fdir}/${newfname}'..."
+if [[ -e "$target" || -L "$target" ]]; then
+	echo "ERROR: destination already exists: '$target'." >&2
+	exit 1
+fi
 
-mv "$fdir/$fname" "$fdir/$newfname"
+echo "Original name: '$fsource'."
+echo "Renaming to: '$target'..."
+
+mv -- "$fsource" "$target"

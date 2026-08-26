@@ -2,6 +2,30 @@
 
 # this is a wrapper script for `prep0`
 
+failed_files=()
+show_dialog=false
+
+if [[ ${1-} == "-d" ]]; then
+    show_dialog=true
+    shift
+fi
+
 for arg in "$@"; do
-    prep0 "$arg"
+    if ! prep0 "$arg"; then
+        failed_files+=("$arg")
+    fi
 done
+
+if ((${#failed_files[@]})); then
+    if [[ "$show_dialog" == true ]] && command -v kdialog >/dev/null 2>&1; then
+        failure_text=$(printf '%s\n' "${failed_files[@]}")
+        kdialog --title "Renaming" --error \
+            "The following files were not renamed:\n\n${failure_text}"
+    else
+        printf '\nThe following files were not renamed:\n'
+        printf '%s\n' "${failed_files[@]}"
+    fi
+    exit 1
+fi
+
+exit 0
