@@ -1,20 +1,29 @@
 #!/usr/bin/env bash
 
-# This script renames files to sanitize their names, maening that it:
+# This script renames files to sanitize their names, meaning that it:
 # 1) removes all "illegal" characters from the file name. "Illegal" in this context
 # is anything that is not alphanumeric (as defined by your locale), '.' (period),
 # '_' (underscore) or '-' (dash).
 # 2) it replaces all spaces in file names with underscores.
 # Usage:
-# % fname_sanitizer <filename1> <filename2> <filename3> ...
+# % fname_sanitizer [-d] <filename1> <filename2> <filename3> ...
+# The `-d' flag shows a KDialog window with the list of files that were not renamed
+# (useful when calling the script from a KServiceMenu item)
 
 if [ -z "$1" ]; then
-    echo "USAGE: fname_sanitizer <filename1> <filename2> <filename3> ..."
+    echo "USAGE: fname_sanitizer [-d] <filename1> <filename2> <filename3> ..."
     exit 0
 fi
 
 failed_files=()
 counter=0
+
+show_dialog=false
+
+if [[ ${1-} == "-d" ]]; then
+    show_dialog=true
+    shift
+fi
 
 for arg in "$@"; do
     fullname="$arg"
@@ -56,6 +65,12 @@ echo "Successfully renamed $counter file(s)."
 if ((${#failed_files[@]})); then
     printf "\nThe following files were not renamed:\n"
     printf '%s\n' "${failed_files[@]}"
+
+    if [[ "$show_dialog" == true ]] && command -v kdialog >/dev/null 2>&1; then
+            failure_text=$(printf '%s\n' "${failed_files[@]}")
+            kdialog --title "Filename Sanitizer" --error \
+                "The following files were not renamed:\n\n${failure_text}"
+    fi
     exit 1
 fi
 
