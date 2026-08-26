@@ -80,7 +80,7 @@ For example, if you use:
 tstamp abc.txt
 ```
 
-The file will be renamed to `2023_09_01_abc.txt`.
+The file will be renamed to `2023-09-01__abc.txt`.
 
 But if you use:
 
@@ -88,7 +88,7 @@ But if you use:
 tstamp abc.txt -t
 ```
 
-Then the file will be renamed to `2023-09-01T07-40_abc.txt`.
+Then the file will be renamed to `2023-09-01T07-40__abc.txt`.
 
 ### dstamp_all
 

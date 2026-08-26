@@ -6,34 +6,42 @@
 # optional parameter '-t', the date is formatted as "%Y-%m-%dT%H-%M".
 #
 # For example:
-# % tstamp abc.txt    -> 2023-09-01_abc.txt
-# % tstamp abc.txt -t -> 2023-09-01T07-40_abc.txt
+# % tstamp abc.txt    -> 2023-09-01__abc.txt
+# % tstamp abc.txt -t -> 2023-09-01T07-40__abc.txt
 
-if [ -z "$1" ]; then
-	echo "USAGE: tstamp <filename> [-t]"
-	exit 0
+if [ -z "$1" ] || [ "$#" -gt 2 ]; then
+    echo "USAGE: tstamp <filename> [-t]"
+    exit 1
 fi
 
-fname=$(basename "$1")
-fdir=$(dirname "$1")
-
+fname=$(basename -- "$1")
+fdir=$(dirname -- "$1")
+fsource="${fdir}/${fname}"
 
 if ! [ -f "$1" ]; then
 	echo "ERROR: '$1' is not a file."
-	exit 45
+	exit 1
 fi
 
-timeopt="$2"
-
-if [ "${timeopt}" = "-t" ]; then
+if [ -z "$2" ]; then
+	datetime="$(date -r "$1" '+%Y-%m-%d')"
+elif [[ "$2" = "-t" ]]; then
 	datetime="$(date -r "$1" '+%Y-%m-%dT%H-%M')"
 else
-	datetime="$(date -r "$1" '+%Y-%m-%d' )"
+    echo "ERROR: unknown parameter '$2'." 1>&2
+    exit 1
 fi
 
 newfname="${datetime}__${fname}"
+target="${fdir}/${newfname}"
+
+if [[ -e "$target" || -L "$target" ]]; then
+	echo "ERROR: destination already exists: '$target'." >&2
+	exit 1
+fi
 
 echo "Original name: '${fdir}/${fname}'."
 echo "Renaming to: '${fdir}/${newfname}'..."
 
-mv "$fdir/$fname" "$fdir/$newfname"
+mv -- "$fsource" "$target"
+exit 0
