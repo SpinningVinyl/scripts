@@ -8,6 +8,10 @@ The scripts are nothing special: I'm not a scripting guru, I'm just a guy who li
 
 This script automatically tiles the active window according to the coordinates set in the script. Works only with KDE Plasma/KWin and requires [kwst](https://github.com/SpinningVinyl/kwst).
 
+### kwin-tile-native
+
+Similar to `kwin-tile`, but uses KWin's native tiling. Works only with KDE Plasma/KWin and requires a recent version of `kwst`.
+
 ### activate
 
 This script activates the window that matches the application name. If such a window is not found, it launches the application instead. Works only with KDE Plasma/KWin and requires `kwst`.
