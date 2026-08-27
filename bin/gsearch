@@ -8,6 +8,23 @@ giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
 wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
 soquery="https://stackoverflow.com/search?q="
 
+urlencode() {
+	local input=$1
+	local output="" char encoded i
+	local LC_ALL=C
+
+	for ((i = 0; i < ${#input}; i++)); do
+		char=${input:i:1}
+		case $char in
+			[a-zA-Z0-9.~_-]) output+="$char" ;;
+			' ') output+='+' ;;
+			*) printf -v encoded '%%%02X' "'$char"; output+="$encoded" ;;
+		esac
+	done
+
+	printf '%s' "$output"
+}
+
 zenity_present=false
 kdialog_present=false
 
@@ -19,9 +36,9 @@ if command -v kdialog > /dev/null; then
 fi
 
 if [ "$zenity_present" = true ]; then
-	input=$(zenity --entry --title "Web search" --text "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+	input=$(zenity --width=800 --entry --title "Web search" --text "Enter your search query")
 elif [ "$kdialog_present" = true ]; then
-	input=$(kdialog --title "Web search" --inputbox "Enter your search query" | tr ' ' '+' | sed "s/&/#26/g")
+	input=$(kdialog --geometry 800x100 --title "Web search" --inputbox "Enter your search query")
 else
 	echo "ERROR: please install either zenity or kdialog to use this script."
 	exit 42
@@ -32,18 +49,21 @@ if [ -z "$input" ]; then
 fi
 
 
-if [[ $input = *":"* ]]
-then
-    predicate=$(echo "$input" | cut -d ':' -f1)
-    searchrq=$(echo "$input" | cut -d ':' -f2)
-else
-    predicate="nil"
-    searchrq="$input"
-fi
+case "$input" in
+    g:*) predicate="g"; searchrq=${input#*:} ;;
+    gi:*) predicate="gi"; searchrq=${input#*:} ;;
+    i:*) predicate="i"; searchrq=${input#*:} ;;
+    gs:*) predicate="gs"; searchrq=${input#*:} ;;
+    w:*) predicate="w"; searchrq=${input#*:} ;;
+    so:*) predicate="so"; searchrq=${input#*:} ;;
+    *) predicate="nil"; searchrq="$input" ;;
+esac
+
+searchrq=$(urlencode "$searchrq")
 
 if [ "$predicate" = "g" ]; then
     mainquery=$gquery
-    searchrq+='&udm=14'
+    searchrq+='&udm=web'
 elif [ "$predicate" = "gi" ]; then
     mainquery=$giquery
 elif [ "$predicate" = "i" ]; then
@@ -60,4 +80,5 @@ fi
 
 mainquery+=$searchrq
 
-echo "$mainquery" | xargs firefox
+firefox "$mainquery"
+activate firefox
