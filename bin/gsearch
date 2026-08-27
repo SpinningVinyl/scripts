@@ -7,6 +7,7 @@ gsquery="https://scholar.google.com/scholar?q="
 giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
 wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
 soquery="https://stackoverflow.com/search?q="
+amzquery="https://www.amazon.ie/s?k="
 
 urlencode() {
 	local input=$1
@@ -48,16 +49,8 @@ if [ -z "$input" ]; then
 	exit 0;
 fi
 
-
-case "$input" in
-    g:*) predicate="g"; searchrq=${input#*:} ;;
-    gi:*) predicate="gi"; searchrq=${input#*:} ;;
-    i:*) predicate="i"; searchrq=${input#*:} ;;
-    gs:*) predicate="gs"; searchrq=${input#*:} ;;
-    w:*) predicate="w"; searchrq=${input#*:} ;;
-    so:*) predicate="so"; searchrq=${input#*:} ;;
-    *) predicate="nil"; searchrq="$input" ;;
-esac
+predicate="$(printf '%s' "$input" | cut -d ':' -f1)"
+searchrq="$(printf '%s' "$input" | cut -d ':' -f2)"
 
 searchrq=$(urlencode "$searchrq")
 
@@ -74,6 +67,8 @@ elif [ "$predicate" = "w" ]; then
     mainquery=$wikiquery
 elif [ "$predicate" = "so" ]; then
     mainquery=$soquery
+elif [ "$predicate" = "amz" ]; then
+    mainquery=$amzquery
 else
     mainquery=$dquery
 fi
