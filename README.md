@@ -47,7 +47,7 @@ Checks whether the supplied parameter is a valid filename.
 
 ### gsearch
 
-This script asks the user for a search query and opens it in Firefox. The search engine is selected based on the prefix. `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia, `so:` for Stack Overflow. By default the script uses DuckDuckGo. 
+This script asks the user for a search query and opens it in Firefox. The search engine is selected based on the prefix. `g:` stands for Google, `gs:` for Google Scholar, `gi:` for Google Image Search, `w:` for Wikipedia, `so:` for Stack Overflow, `amz:` for Amazon. By default the script uses DuckDuckGo. 
 
 This script requires either `zenity` or `kdialog` to be installed.
 
