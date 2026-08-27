@@ -6,39 +6,26 @@ then
     exit 1
 fi
 
-zenity_present=false
-kdialog_present=false
-
-if command -v zenity > /dev/null; then
-    zenity_present=true
-fi
-
-if command -v kdialog > /dev/null; then
-    kdialog_present=true
-fi
-
-if [ "$zenity_present" = true ]; then
-    file_name=$(zenity --entry --title "File name" --text "Enter the name of the new file" | tr ' ' '_')
-elif [ "$kdialog_present" = true ]; then
-    file_name=$(kdialog --title "File name" --inputbox "Enter the name of the new file" | tr ' ' '_')
+if command -v kdialog > /dev/null 2>&1; then
+    output_file=$(kdialog --title "Save merged PDF" \
+        --getsavefilename "$PWD/merged.pdf" "*.pdf|PDF files")
+elif command -v zenity > /dev/null 2>&1; then
+    output_file=$(zenity --file-selection --save --confirm-overwrite \
+        --filename="$PWD/merged.pdf" \
+        --file-filter="PDF files | *.pdf" \
+        --title="Save merged PDF")
 else
     echo "ERROR: please install either zenity or kdialog to use this script." 1>&2
     exit 1
 fi
 
-valid=$(fname_validator "$file_name")
-
-if [[ "$valid" = "invalid" ]]; then
-    echo "Invalid name of the output file." 1>&2
+if [[ -z "$output_file" ]]; then
+    echo "No output file selected." 1>&2
     exit 1
 fi
 
-# check if the input ends in ".pdf"
-if [[ ${file_name^^} = *".PDF" ]]
-then
-    output_file=$file_name
-else
-    output_file="${file_name}.pdf"
+if [[ ${output_file,,} != *.pdf ]]; then
+    output_file="${output_file}.pdf"
 fi
 
 merge_pdf "$output_file" "$@"
