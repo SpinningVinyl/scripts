@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+if [ "$EUID" -ne 0 ]; then
+    echo "mntflpimg must be run as root." >&2
+    exit 1
+fi
+
+if [ "$#" -ne 2 ]; then
+    echo "mntflpimg -- mount floppy disk image" 1>&2
+    echo "USAGE: mntflpimg <filename> <mount_path>" 1>&2
+    exit 2
+fi
+
+mkdir -p -- "$2" && mount -t vfat -o loop -- "$1" "$2"
