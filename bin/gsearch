@@ -8,6 +8,7 @@ giquery="https://www.google.com/search?site=imghp&tbm=isch&q="
 wikiquery="https://en.wikipedia.org/w/index.php?fulltext=1&search="
 soquery="https://stackoverflow.com/search?q="
 amzquery="https://www.amazon.ie/s?k="
+yquery="https://www.youtube.com/results?search_query="
 
 urlencode() {
 	local input=$1
@@ -69,6 +70,8 @@ elif [ "$predicate" = "so" ]; then
     mainquery=$soquery
 elif [ "$predicate" = "amz" ]; then
     mainquery=$amzquery
+elif [ "$predicate" = "y" ]; then
+    mainquery=$yquery
 else
     mainquery=$dquery
 fi
