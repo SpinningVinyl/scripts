@@ -28,11 +28,11 @@ fi
 url=$( echo "$url" | cut -d '?' -f1 )
 
 if [ "$1" = "go" ]; then
-    echo "$url" | xargs firefox
+    firefox "$url"
 else 
     if [ "$XDG_SESSION_TYPE" = "x11" ]; then
-        echo "$url" | xclip -i -sel clip
+        printf '%s' "$url" | xclip -i -sel clip
     else
-        echo "$url" | wl-copy
+        printf '%s' "$url" | wl-copy
     fi
 fi
