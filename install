@@ -57,3 +57,45 @@ if [ -d "$scriptdir" ]; then
         exit 1
     fi
 fi
+
+servicemenusdir="${datadir}servicemenus"
+servicemenudest="$HOME/.local/share/kio/servicemenus"
+
+if [ -d "$servicemenusdir" ]; then
+    read -r -p " * Install KDE service menus? [y/N] " install_servicemenus
+
+    case "$install_servicemenus" in
+        y|Y|yes|YES)
+            echo " * Symlinking servicemenus to $servicemenudest"
+            mkdir -p "$servicemenudest"
+            had_conflicts=false
+
+            for file in "$servicemenusdir/"*.desktop; do
+                [ -f "$file" ] || continue
+
+                basefilename=$(basename "$file")
+                realfilepath=$(realpath "$file")
+                servicemenulinkpath="$servicemenudest/$basefilename"
+
+                if [ -L "$servicemenulinkpath" ]; then
+                    if [ "$servicemenulinkpath" -ef "$file" ]; then
+                        echo "   * $servicemenulinkpath is already linked correctly."
+                    else
+                        echo "   * Updating symlink $servicemenulinkpath..."
+                        ln -sfn "$realfilepath" "$servicemenulinkpath"
+                    fi
+                elif [ -e "$servicemenulinkpath" ]; then
+                    echo "ERROR: $servicemenulinkpath exists and is not a symlink; leaving it unchanged." >&2
+                    had_conflicts=true
+                else
+                    echo "   * Linking $realfilepath to $servicemenulinkpath..."
+                    ln -s "$realfilepath" "$servicemenulinkpath"
+                fi
+            done
+
+            if [ "$had_conflicts" = true ]; then
+                exit 1
+            fi
+            ;;
+    esac
+fi

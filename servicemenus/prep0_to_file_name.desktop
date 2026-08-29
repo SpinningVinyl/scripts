@@ -1,0 +1,13 @@
+[Desktop Entry]
+Actions=prep0-to-file-name
+MimeType=application/octet-stream
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu=File name tools
+
+[Desktop Action prep0-to-file-name]
+
+Exec=/home/pavel/bin/prep0_all -d %F
+
+Name=Prepend zero to file name(s)
+Icon=emblem-system-symbolic

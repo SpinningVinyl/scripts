@@ -1,0 +1,12 @@
+[Desktop Entry]
+Actions=mergePdfFiles
+MimeType=application/pdf;
+ServiceTypes=KonqPopupMenu/Plugin
+X-KDE-Submenu=PDF tools
+X-KDE-MinNumberOfUrls=2
+Type=Service
+
+[Desktop Action mergePdfFiles]
+Exec=/home/pavel/bin/pdfmerge %F
+Name=Merge PDF files
+Icon=application-pdf

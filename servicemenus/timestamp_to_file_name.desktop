@@ -1,0 +1,13 @@
+[Desktop Entry]
+Actions=date-to-file-name
+MimeType=application/octet-stream
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu=File name tools
+
+[Desktop Action date-to-file-name]
+
+Exec=/home/pavel/bin/tstamp_all -d %F
+
+Name=Timestamp to file name(s)
+Icon=smallclock

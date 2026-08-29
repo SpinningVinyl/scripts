@@ -1,0 +1,11 @@
+[Desktop Entry]
+Actions=show-sha256sum
+MimeType=application/octet-stream;
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu=File tools
+
+[Desktop Action show-sha256sum]
+Exec=/home/pavel/bin/sha256sum-dialog %F
+Name=Calculate SHA-256 checksum(s)
+Icon=dialog-information

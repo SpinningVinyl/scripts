@@ -1,0 +1,13 @@
+[Desktop Entry]
+Actions=sanitize-file-name
+MimeType=application/octet-stream
+ServiceTypes=KonqPopupMenu/Plugin
+Type=Service
+X-KDE-Submenu=File name tools
+
+[Desktop Action sanitize-file-name]
+
+Exec=/home/pavel/bin/fname_sanitizer -d %F
+
+Name=Sanitize file name(s)
+Icon=dialog-ok

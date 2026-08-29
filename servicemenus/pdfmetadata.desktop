@@ -1,0 +1,11 @@
+[Desktop Entry]
+Actions=pdfSetMetadata
+MimeType=application/pdf;
+ServiceTypes=KonqPopupMenu/Plugin
+X-KDE-Submenu=PDF tools
+Type=Service
+
+[Desktop Action pdfSetMetadata]
+Exec=/home/pavel/bin/pdf-set-metadata %F
+Name=Set PDF metadata...
+Icon=application-pdf

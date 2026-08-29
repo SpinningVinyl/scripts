@@ -1,0 +1,11 @@
+[Desktop Entry]
+Actions=compressPdfFiles1
+MimeType=application/pdf;
+ServiceTypes=KonqPopupMenu/Plugin
+X-KDE-Submenu=PDF tools
+Type=Service
+
+[Desktop Action compressPdfFiles1]
+Exec=/home/pavel/bin/pdfcompress_all_e -d %F
+Name=Compress PDF (150dpi/ebook)
+Icon=application-pdf
