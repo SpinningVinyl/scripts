@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+if [ "$#" -ne 1 ]; then
+    echo "USAGE: pdf-set-metadata <file.pdf>"
+    exit 1
+fi
+
+if ! command -v exiftool >/dev/null 2>&1; then
+    echo "ERROR: exiftool not found."
+    exit 1
+fi
+
+if ! command -v kdialog >/dev/null 2>&1; then
+    echo "ERROR: kdialog not found."
+    exit 1
+fi
+
+title_set=false
+if title=$(kdialog --title "Input new title" --inputbox "Please input a new title for the PDF file."); then
+    if ! exiftool -Title="$title" "$1"; then
+        exit 1
+    fi
+    title_set=true
+fi
+
+author_set=false
+if author=$(kdialog --title "Input new author" --inputbox "Please input a new author for the PDF file."); then
+    if ! exiftool -Author="$author" "$1"; then
+        exit 1
+    fi
+    author_set=true
+fi
+
+if [ "$title_set" = false ] && [ "$author_set" = false ]; then
+    echo "ERROR: user cancellation."
+    exit 1
+fi
