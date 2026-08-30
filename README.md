@@ -109,6 +109,14 @@ A wrapper script for `tstamp` that will prepend the last modification date *and 
 ```bash
 tstamp_all <filename1> <filename2> <filename3> ...
 ```
+## Installation
+
+To install, run:
+```sh
+./install
+```
+
+The installer is idempotent and can be re-run at any time without any side effects.
 
 ## License
 
