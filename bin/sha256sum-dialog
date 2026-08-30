@@ -20,4 +20,12 @@ if ! checksums=$(sha256sum -- "$@"); then
     exit 1
 fi
 
-kdialog --title "SHA-256 checksums" --msgbox "$checksums"
+# ponytail: basenames keep the dialog readable; show parent paths if duplicates matter.
+display=""
+while read -r checksum filename; do
+    [ -n "$checksum" ] || continue
+    display+="${filename##*/}"$'\n'
+    display+="SHA-256: $checksum"$'\n\n'
+done <<< "$checksums"
+
+kdialog --title "SHA-256 checksums" --msgbox "$display"
