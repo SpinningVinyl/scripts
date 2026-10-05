@@ -12,6 +12,18 @@ This script automatically tiles the active window according to the coordinates s
 
 Similar to `kwin-tile`, but uses KWin's native tiling. Works only with KDE Plasma/KWin and requires a recent version of `kwst`.
 
+### kwin-set-borders
+
+Sets borders of the active window to the globally configured accent colour. The user session needs to be restarted for the settings to take effect.
+
+### kwin-reset-borders
+
+Sets window borders to the default colour.
+
+### winprop
+
+Toggles a property on the active window. Works only with KDE Plasma/KWin and requires a recent version of `kwst`.
+
 ### activate
 
 This script activates the window that matches the application name. If such a window is not found, it launches the application instead. Works only with KDE Plasma/KWin and requires `kwst`.
