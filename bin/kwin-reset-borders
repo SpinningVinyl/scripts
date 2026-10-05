@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+kwriteconfig6 --file kdeglobals --group WM --key frame --delete
+kwriteconfig6 --file kdeglobals --group WM --key inactiveFrame --delete
+qdbus6 org.kde.KWin /KWin reconfigure

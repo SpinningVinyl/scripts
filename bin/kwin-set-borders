@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+kwriteconfig6 --file kdeglobals --group WM --key frame "$(kreadconfig6 --file kdeglobals --group WM --key activeBackground)"
+kwriteconfig6 --file kdeglobals --group WM --key inactiveFrame "$(kreadconfig6 --file kdeglobals --group WM --key inactiveBackground)"
+qdbus6 org.kde.KWin /KWin reconfigure

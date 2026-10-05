@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Toggle the keepAbove property on the currently active window.
+# Requires KWST and works only witn KWin.
+
+if [ "$#" -ne 1 ]; then
+	echo "USAGE: winprop <property>" >&2
+	exit 1
+fi
+
+property="$1"
+
+window_id=$(kwst get-active-window) || exit
+kwst set-window-property -p "$property" -v toggle "$window_id"
