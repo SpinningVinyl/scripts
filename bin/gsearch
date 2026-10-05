@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+browser="firefox"
+
 dquery="https://duckduckgo.com/?q="
 diquery="https://duckduckgo.com/?iax=images&ia=images&q="
 gquery="https://google.com/search?q="
@@ -78,5 +80,5 @@ fi
 
 mainquery+=$searchrq
 
-firefox "$mainquery"
-activate firefox
+"$browser" "$mainquery"
+activate "$browser"
